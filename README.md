@@ -1,22 +1,14 @@
-# Modded Beepbox: SOURCE
+# Nepbox
 
-## The Source
-
-Modbox: Source is a decompilation project undertaken by Neptendo, with assistance from LeoV. Intended to 
-decompile [Modbox Beta's](https://github.com/ModdedBeepbox/beta) javascript code into Beepbox's Typescript files.
-Through this basically all of Modded Beepbox's secrets locked behind a javascript key are now released to the world.
-
-## Modded Beepbox
-
-Modbox is an online tool for sketching and sharing instrumental melodies.
-Try it out [here](https://moddedbeepbox.github.io/)!
+Nepbox is an online tool for sketching and sharing instrumental melodies.
+Try it out [here](https://neptendo.github.io/nepbox/)!
 
 All song data is packaged into the URL at the top of your browser. When you make
 changes to the song, the URL is updated to reflect your changes. When you are
 satisfied with your song, just copy and paste the URL to save and share your
 song!
 
-Modbox was a passion project, and will remain free to use.
+Nepbox is a passion project, and will remain free to use.
 If you find it valuable and have the means, any gratuity to
 [John Nesky](http://www.johnnesky.com/) for his work on Beepbox through his
 [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=QZJTX9GRYEV9N&currency_code=USD) would be appreciated!
