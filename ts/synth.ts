@@ -53,7 +53,7 @@ namespace beepbox {
 	}
 	
 	export class Config {
-		public static readonly scaleNames: ReadonlyArray<string> = ["easy :)", "easy :(", "island :)", "island :(", "blues :)", "blues :(", "normal :)", "normal :(", "dbl harmonic :)", "dbl harmonic :(", "enigma", "expert", "monotonic", "no dabbing"];
+		public static readonly scaleNames: ReadonlyArray<string> = ["pent maj", "pent min", "ryukyu", "pelog selisir", "blues major", "megalovania", "major", "minor", "dbl harm maj", "dbl harm min", "whole tone", "chromatic", "monotonic", "no dabbing", "jacked toad"];
 		public static readonly scaleFlags: ReadonlyArray<ReadonlyArray<boolean>> = [
 			[ true, false,  true, false,  true, false, false,  true, false,  true, false, false],
 			[ true, false, false,  true, false,  true, false,  true, false, false,  true, false],
@@ -69,13 +69,14 @@ namespace beepbox {
 			[ true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true],
 			[ true, false, false, false, false, false, false, false, false, false, false, false],
 			[ true,  true, false,  true,  true,  true,  true,  true,  true, false,  true, false],
+			[ true,  false, true,  true,  false,  true,  true,  true,  true, false,  true, true],
 		];
 		public static readonly pianoScaleFlags: ReadonlyArray<boolean> = [ true, false,  true, false,  true,  true, false,  true, false,  true, false,  true];
 		public static readonly blackKeyNameParents: ReadonlyArray<number> = [-1, 1, -1, 1, -1, 1, -1, -1, 1, -1, 1, -1];
 		public static readonly pitchNames: ReadonlyArray<string | null> = ["C", null, "D", null, "E", "F", null, "G", null, "A", null, "B"];
-		public static readonly keyNames: ReadonlyArray<string> = ["B", "A♯", "A", "G♯", "G", "F♯", "F", "E", "D♯", "D", "C♯", "C"];
+		public static readonly keyNames: ReadonlyArray<string> = ["B", "A♯", "A", "G♯", "G", "F♯", "F", "E", "D♯", "D", "C♯", "C", "B-"];
 		// C1 has index 24 on the MIDI scale. C8 is 108, and C9 is 120. C10 is barely in the audible range.
-		public static readonly keyTransposes: ReadonlyArray<number> = [23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12];
+		public static readonly keyTransposes: ReadonlyArray<number> = [23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11];
 		public static readonly mixNames: ReadonlyArray<string> = ["Type A (B & S)", "Type B (M)", "Type C"];
 		public static readonly sampleRateNames: ReadonlyArray<string> = ["44100kHz", "48000kHz", "default", "×4", "×2", "÷2", "÷4", "÷8", "÷16"];
 		public static readonly tempoSteps: number = 24;
@@ -89,13 +90,13 @@ namespace beepbox {
 		public static readonly barCountMin: number = 1;
 		public static readonly barCountMax: number = 256;
 		public static readonly patternsPerChannelMin: number = 1;
-		public static readonly patternsPerChannelMax: number = 64;
+		public static readonly patternsPerChannelMax: number = 128;
 		public static readonly instrumentsPerChannelMin: number = 1;
 		public static readonly instrumentsPerChannelMax: number = 64;
 		public static readonly partNames: ReadonlyArray<string> = ["÷3 (triplets)", "÷4 (standard)", "÷6", "÷8", "÷16 (arpfest)", "÷12", "÷9", "÷5", "÷50", "÷24"];
 		public static readonly partCounts: ReadonlyArray<number> = [3, 4, 6, 8, 16, 12, 9, 5, 50, 24];
-		public static readonly waveNames: ReadonlyArray<string> = ["triangle", "square", "pulse wide", "pulse narrow", "sawtooth", "double saw", "double pulse", "spiky", "plateau", "glitch", "10% pulse", "sunsoft bass", "loud pulse", "sax", "guitar", "sine", "atari bass", "atari pulse", "1% pulse", "curved sawtooth", "viola", "brass", "acoustic bass", "lyre", "ramp pulse", "piccolo", "squaretooth", "flatline", "pnryshk a (u5)", "pnryshk b (riff)"];
-		public static readonly waveVolumes: ReadonlyArray<number> = [1.0,        0.5,      0.5,          0.5,            0.65,       0.5,          0.4,            0.4,     0.94,      0.5,      0.5,         1.0,            0.6,          0.1,   0.25,     1.0,    1.0,          1.0,           1.0,        1.0,               1.0,     1.0,     1.0,             0.2,    0.2,          0.9,       0.9,           1.0,        0.4,                 0.5];
+		public static readonly waveNames: ReadonlyArray<string> = ["triangle", "square", "pulse wide", "pulse narrow", "sawtooth", "double saw", "double pulse", "spiky", "plateau", "glitch", "10% pulse", "sunsoft bass", "loud pulse", "sax", "guitar", "sine", "atari bass", "atari pulse", "1% pulse", "curved sawtooth", "viola", "brass", "acoustic bass", "lyre", "ramp pulse", "piccolo", "squaretooth", "flatline", "pnryshk a (u5)", "pnryshk b (riff)", "squared saw", "megalovania", "broken triange", "benttooth"];
+		public static readonly waveVolumes: ReadonlyArray<number> = [1.0,        0.5,      0.5,          0.5,            0.65,       0.5,          0.4,            0.4,     0.94,      0.5,      0.5,         1.0,            0.6,          0.1,   0.25,     1.0,    1.0,          1.0,           1.0,        1.0,               1.0,     1.0,     1.0,             0.2,    0.2,          0.9,       0.9,           1.0,        0.4,                 0.5, 1.0, 0.2, 0.2, 0.2];
 		public static readonly drumNames: ReadonlyArray<string> = ["retro", "white", "periodic", "detuned periodic", "shine", "hollow", "deep", "cutter", "metallic", "snare"/*, "tom-tom", "cymbal", "bass"*/];
 		public static readonly drumVolumes: ReadonlyArray<number> = [0.25, 1.0, 0.4, 0.3, 0.3, 1.5, 1.5, 0.25, 1.0, 1.0/*, 1.5, 1.5, 1.5*/];
 		public static readonly drumBasePitches: ReadonlyArray<number> = [69, 69, 69, 69, 69, 96, 120, 96, 96, 69/*, 96, 90, 126*/];
@@ -286,12 +287,12 @@ namespace beepbox {
 		public static readonly drumChannelTypeNames: ReadonlyArray<string> = ["noise"];
 		public static readonly instrumentTypeNames: ReadonlyArray<string> = ["chip", "FM", "noise", "PWM"];
 
-		public static readonly themeNames: ReadonlyArray<string> = ["Default", "ModBox 2.0", "Artic", "Cinnamon Roll [!]", "Ocean", "Rainbow [!]", "Float [!]", "Windows", "Grassland", "Dessert", "Kahootiest", "Beam to the Bit [!]", "Pretty Egg", "Poniryoshka", "Gameboy [!]", "Woodkid", "Midnight", "Snedbox", "unnamed", "Piano [!] [↻]", "Halloween", "FrozenOver❄️"];
-		public static readonly volumeColorPallet: ReadonlyArray<string>            = ["#777777", "#c4ffa3", "#42dcff", "#ba8418", "#090b3a", "#ff00cb", "#878787", "#15a0db", "#74bc21", "#ff0000", "#66bf39", "#fefe00", "#f01d7a", "#ffc100", "#8bac0f", "#ef3027", "#aa5599", "#a53a3d", "#ffffff", "#ff0000", "#9e2200", "#ed2d2d"];
-		public static readonly sliderOneColorPallet: ReadonlyArray<string>         = ["#9900cc", "#00ff00", "#ffffff", "#ba8418", "#5982ff", "#ff0000", "#ffffff", "#2779c2", "#a0d168", "#ff6254", "#ff3355", "#fefe00", "#6b003a", "#4b4b4b", "#9bbc0f", "#e83c4e", "#445566", "#a53a3d", "#ffffff", "#ffffff", "#9e2200", "#38ef17"];
-		public static readonly sliderOctaveColorPallet: ReadonlyArray<string>      = ["#444444", "#00ff00", "#a5eeff", "#e59900", "#4449a3", "#43ff00", "#ffffff", "#295294", "#74bc21", "#ff5e3a", "#eb670f", "#0001fc", "#ffb1f4", "#5f4c99", "#9bbc0f", "#ef3027", "#444444", "#444444", "#ffffff", "#211616", "#9e2200", "#ffffff"];
-		public static readonly sliderOctaveNotchColorPallet: ReadonlyArray<string> = ["#886644", "#ffffff", "#cefffd", "#ffff25", "#3dffdb", "#0400ff", "#c9c9c9", "#fdd01d", "#20330a", "#fff570", "#ff3355", "#fa0103", "#b4001b", "#ff8291", "#8bac0f", "#ffedca", "#aa5599", "#a53a3d", "#ffffff", "#ff4c4c", "#701800", "#ed2d2d"];
-		public static readonly buttonColorPallet: ReadonlyArray<string>            = ["#ffffff", "#00ff00", "#42dcff", "#ffff25", "#4449a3", "#f6ff00", "#000000", "#fdd01d", "#69c400", "#fffc5b", "#66bf39", "#fefe00", "#75093e", "#818383", "#8bac0f", "#ffedca", "#000000", "#ffffff", "#ffffff", "#ffffff", "#9e2200", "#38ef17"];
+		public static readonly themeNames: ReadonlyArray<string> = ["Laffey", "Nepbox 1.0", "Modbox", "ModBox 2.0", "Artic", "Cinnamon Roll [!]", "Ocean", "Rainbow [!]", "Float [!]", "Windows", "Grassland", "Dessert", "Kahootiest", "Beam to the Bit [!]", "Pretty Egg", "Poniryoshka", "Gameboy [!]", "Woodkid", "Midnight", "Snedbox", "unnamed", "Piano [!] [↻]", "Halloween", "FrozenOver❄️"];
+		public static readonly volumeColorPallet: ReadonlyArray<string>            = ["#f2b3ff", "#00fff5", "#777777", "#c4ffa3", "#42dcff", "#ba8418", "#090b3a", "#ff00cb", "#878787", "#15a0db", "#74bc21", "#ff0000", "#66bf39", "#fefe00", "#f01d7a", "#ffc100", "#8bac0f", "#ef3027", "#aa5599", "#a53a3d", "#ffffff", "#ff0000", "#9e2200", "#ed2d2d"];
+		public static readonly sliderOneColorPallet: ReadonlyArray<string>         = ["#f2b3ff", "#00fff5", "#9900cc", "#00ff00", "#ffffff", "#ba8418", "#5982ff", "#ff0000", "#ffffff", "#2779c2", "#a0d168", "#ff6254", "#ff3355", "#fefe00", "#6b003a", "#4b4b4b", "#9bbc0f", "#e83c4e", "#445566", "#a53a3d", "#ffffff", "#ffffff", "#9e2200", "#38ef17"];
+		public static readonly sliderOctaveColorPallet: ReadonlyArray<string>      = ["#852929", "#484848", "#444444", "#00ff00", "#a5eeff", "#e59900", "#4449a3", "#43ff00", "#ffffff", "#295294", "#74bc21", "#ff5e3a", "#eb670f", "#0001fc", "#ffb1f4", "#5f4c99", "#9bbc0f", "#ef3027", "#444444", "#444444", "#ffffff", "#211616", "#9e2200", "#ffffff"];
+		public static readonly sliderOctaveNotchColorPallet: ReadonlyArray<string> = ["#f2b3ff", "#9150ff", "#886644", "#ffffff", "#cefffd", "#ffff25", "#3dffdb", "#0400ff", "#c9c9c9", "#fdd01d", "#20330a", "#fff570", "#ff3355", "#fa0103", "#b4001b", "#ff8291", "#8bac0f", "#ffedca", "#aa5599", "#a53a3d", "#ffffff", "#ff4c4c", "#701800", "#ed2d2d"];
+		public static readonly buttonColorPallet: ReadonlyArray<string>            = ["#343c99", "#484848", "#ffffff", "#00ff00", "#42dcff", "#ffff25", "#4449a3", "#f6ff00", "#000000", "#fdd01d", "#69c400", "#fffc5b", "#66bf39", "#fefe00", "#75093e", "#818383", "#8bac0f", "#ffedca", "#000000", "#ffffff", "#ffffff", "#ffffff", "#9e2200", "#38ef17"];
 
 		public static readonly noteOne: ReadonlyArray<string>    = ["#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#9e2200"];
 		public static readonly noteTwo: ReadonlyArray<string>    = ["#bfbfbf", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#9e2200"];
@@ -306,52 +307,52 @@ namespace beepbox {
 		public static readonly noteEleven: ReadonlyArray<string> = ["#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#7a7a7a", "#9e2200"];
 		public static readonly noteTwelve: ReadonlyArray<string> = ["#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#7a7a7a", "#bfbfbf", "#bfbfbf", "#9e2200"];
 
-		public static readonly baseNoteColorPallet: ReadonlyArray<string>    = ["#886644", "#c4ffa3", "#eafffe", "#f5bb00", "#090b3a", "#ffaaaa", "#ffffff", "#da4e2a", "#20330a", "#fffc5b", "#45a3e5", "#fefe00", "#fffafa", "#1a2844", "#9bbc0f", "#fff6fe", "#222222", "#886644", "#ffffa0", "#ffffff", "#681701", "#88bce8"];
-		public static readonly secondNoteColorPallet: ReadonlyArray<string>  = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffceaa", "#ededed", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#9bbc0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#99c8ef"];
-		public static readonly thirdNoteColorPallet: ReadonlyArray<string>   = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffdfaa", "#cecece", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#9bbc0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#abd3f4"];
-		public static readonly fourthNoteColorPallet: ReadonlyArray<string>  = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#fff5aa", "#bababa", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#8bac0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#b8d7f2"];
-		public static readonly sixthNoteColorPallet: ReadonlyArray<string>   = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#e8ffaa", "#afafaf", "#444444", "#444444", "#444444", "#444444", "#fa0103", "#444444", "#faf4c3", "#8bac0f", "#41323b", "#222222", "#10997e", "#ffffa0", "#ffffff", "#754a3f", "#cbe0f2"];
-		public static readonly seventhNoteColorPallet: ReadonlyArray<string> = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#bfffb2", "#a5a5a5", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#8bac0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#e5f0f9"];
-		public static readonly eigthNoteColorPallet: ReadonlyArray<string>   = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2ffc8", "#999999", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#306230", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#ffffff"];
-		public static readonly fifthNoteColorPallet: ReadonlyArray<string>   = ["#446688", "#96fffb", "#b7f1ff", "#f5bb00", "#3f669b", "#b2ffe4", "#8e8e8e", "#5d9511", "#74bc21", "#ff5e3a", "#864cbf", "#111111", "#ff91ce", "#dabbe6", "#306230", "#fff6fe", "#444444", "#60389b", "#ffffa0", "#ffffff", "#914300", "#e5f0f9"];
-		public static readonly ninthNoteColorPallet: ReadonlyArray<string>   = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2f3ff", "#828282", "#444444", "#444444", "#444444", "#444444", "#0001fc", "#444444", "#444444", "#306230", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#cbe0f2"];
-		public static readonly tenNoteColorPallet: ReadonlyArray<string>     = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2b3ff", "#777777", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#b8d7f2"];
-		public static readonly elevenNoteColorPallet: ReadonlyArray<string>  = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#e0b2ff", "#565656", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#abd3f4"];
-		public static readonly twelveNoteColorPallet: ReadonlyArray<string>  = ["#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffafe9", "#282828", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#99c8ef"];
+		public static readonly baseNoteColorPallet: ReadonlyArray<string>    = ["#dbbeed","#9150ff","#886644", "#c4ffa3", "#eafffe", "#f5bb00", "#090b3a", "#ffaaaa", "#ffffff", "#da4e2a", "#20330a", "#fffc5b", "#45a3e5", "#fefe00", "#fffafa", "#1a2844", "#9bbc0f", "#fff6fe", "#222222", "#886644", "#ffffa0", "#ffffff", "#681701", "#88bce8"];
+		public static readonly secondNoteColorPallet: ReadonlyArray<string>  = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffceaa", "#ededed", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#9bbc0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#99c8ef"];
+		public static readonly thirdNoteColorPallet: ReadonlyArray<string>   = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffdfaa", "#cecece", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#9bbc0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#abd3f4"];
+		public static readonly fourthNoteColorPallet: ReadonlyArray<string>  = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#fff5aa", "#bababa", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#8bac0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#b8d7f2"];
+		public static readonly sixthNoteColorPallet: ReadonlyArray<string>   = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#e8ffaa", "#afafaf", "#444444", "#444444", "#444444", "#444444", "#fa0103", "#444444", "#faf4c3", "#8bac0f", "#41323b", "#222222", "#10997e", "#ffffa0", "#ffffff", "#754a3f", "#cbe0f2"];
+		public static readonly seventhNoteColorPallet: ReadonlyArray<string> = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#bfffb2", "#a5a5a5", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#8bac0f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#e5f0f9"];
+		public static readonly eigthNoteColorPallet: ReadonlyArray<string>   = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2ffc8", "#999999", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#306230", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#ffffff"];
+		public static readonly fifthNoteColorPallet: ReadonlyArray<string>   = ["#6b1313","#990000","#446688", "#96fffb", "#b7f1ff", "#f5bb00", "#3f669b", "#b2ffe4", "#8e8e8e", "#5d9511", "#74bc21", "#ff5e3a", "#864cbf", "#111111", "#ff91ce", "#dabbe6", "#306230", "#fff6fe", "#444444", "#60389b", "#ffffa0", "#ffffff", "#914300", "#e5f0f9"];
+		public static readonly ninthNoteColorPallet: ReadonlyArray<string>   = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2f3ff", "#828282", "#444444", "#444444", "#444444", "#444444", "#0001fc", "#444444", "#444444", "#306230", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#cbe0f2"];
+		public static readonly tenNoteColorPallet: ReadonlyArray<string>     = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#b2b3ff", "#777777", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#b8d7f2"];
+		public static readonly elevenNoteColorPallet: ReadonlyArray<string>  = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#e0b2ff", "#565656", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#abd3f4"];
+		public static readonly twelveNoteColorPallet: ReadonlyArray<string>  = ["#1a2182","#0a2d44","#444444", "#444444", "#444444", "#f5bb00", "#444444", "#ffafe9", "#282828", "#444444", "#444444", "#444444", "#444444", "#111111", "#444444", "#444444", "#0f380f", "#41323b", "#222222", "#444444", "#ffffa0", "#ffffff", "#754a3f", "#99c8ef"];
 
-		public static readonly channelOneBrightColorPallet: string      = "#25f3ff";
-		public static readonly channelTwoBrightColorPallet: string      = "#44ff44";
-		public static readonly channelThreeBrightColorPallet: string    = "#ffff25";
-		public static readonly channelFourBrightColorPallet: string     = "#ff9752";
-		public static readonly channelFiveBrightColorPallet: string     = "#ff90ff";
-		public static readonly channelSixBrightColorPallet: string      = "#9f31ea";
-		public static readonly channelSevenBrightColorPallet: string    = "#2b6aff";
-		public static readonly channelEightBrightColorPallet: string    = "#00ff9f";
-		public static readonly channelNineBrightColorPallet: string     = "#ffbf00";
-		public static readonly channelTenBrightColorPallet: string      = "#d85d00";
-		public static readonly channelElevenBrightColorPallet: string   = "#ff00a1";
-		public static readonly channelTwelveBrightColorPallet: string   = "#c26afc";
-		public static readonly channelThirteenBrightColorPallet: string = "#ff1616";
-		public static readonly channelFourteenBrightColorPallet: string = "#ffffff";
-		public static readonly channelFifteenBrightColorPallet: string  = "#768dfc";
-		public static readonly channelSixteenBrightColorPallet: string  = "#a5ff00";
+		public static readonly channelOneBrightColorPallet: string      = "#cacaca";
+		public static readonly channelTwoBrightColorPallet: string      = "#3de2ff";
+		public static readonly channelThreeBrightColorPallet: string    = "#8567ff";
+		public static readonly channelFourBrightColorPallet: string     = "#ffb500";
+		public static readonly channelFiveBrightColorPallet: string     = "#ff3e3e";
+		public static readonly channelSixBrightColorPallet: string      = "#fdff00";
+		public static readonly channelSevenBrightColorPallet: string    = "#23ff1b";
+		public static readonly channelEightBrightColorPallet: string    = "#0c79ff";
+		public static readonly channelNineBrightColorPallet: string     = "#ffffff";
+		public static readonly channelTenBrightColorPallet: string      = "#42ffff";
+		public static readonly channelElevenBrightColorPallet: string   = "#970000";
+		public static readonly channelTwelveBrightColorPallet: string   = "#759bff";
+		public static readonly channelThirteenBrightColorPallet: string = "#f75dff";
+		public static readonly channelFourteenBrightColorPallet: string = "#ff0000";
+		public static readonly channelFifteenBrightColorPallet: string  = "#1792ff";
+		public static readonly channelSixteenBrightColorPallet: string  = "#ffbb00";
 
-		public static readonly channelOneDimColorPallet: string      = "#0099a1";
-		public static readonly channelTwoDimColorPallet: string      = "#439143";
-		public static readonly channelThreeDimColorPallet: string    = "#a1a100";
-		public static readonly channelFourDimColorPallet: string     = "#c75000";
-		public static readonly channelFiveDimColorPallet: string     = "#d020d0";
-		public static readonly channelSixDimColorPallet: string      = "#552377";
-		public static readonly channelSevenDimColorPallet: string    = "#221b89";
-		public static readonly channelEightDimColorPallet: string    = "#00995f";
-		public static readonly channelNineDimColorPallet: string     = "#d6b03e";
-		public static readonly channelTenDimColorPallet: string      = "#b25915";
-		public static readonly channelElevenDimColorPallet: string   = "#891a60";
-		public static readonly channelTwelveDimColorPallet: string   = "#965cbc";
-		public static readonly channelThirteenDimColorPallet: string = "#991010";
-		public static readonly channelFourteenDimColorPallet: string = "#aaaaaa";
-		public static readonly channelFifteenDimColorPallet: string  = "#5869BD";
-		public static readonly channelSixteenDimColorPallet: string  = "#7c9b42";
+		public static readonly channelOneDimColorPallet: string      = "#828282";
+		public static readonly channelTwoDimColorPallet: string      = "#2f8baf";
+		public static readonly channelThreeDimColorPallet: string    = "#6f50b1";
+		public static readonly channelFourDimColorPallet: string     = "#d38900";
+		public static readonly channelFiveDimColorPallet: string     = "#6c0000";
+		public static readonly channelSixDimColorPallet: string      = "#d25a00";
+		public static readonly channelSevenDimColorPallet: string    = "#046000";
+		public static readonly channelEightDimColorPallet: string    = "#3b2bae";
+		public static readonly channelNineDimColorPallet: string     = "#3a3ea4";
+		public static readonly channelTenDimColorPallet: string      = "#3a8d58";
+		public static readonly channelElevenDimColorPallet: string   = "#0001a2";
+		public static readonly channelTwelveDimColorPallet: string   = "#a00000";
+		public static readonly channelThirteenDimColorPallet: string = "#b930a2";
+		public static readonly channelFourteenDimColorPallet: string = "#8c2121";
+		public static readonly channelFifteenDimColorPallet: string  = "#005cb3";
+		public static readonly channelSixteenDimColorPallet: string  = "#9c4100";
 
 		public static readonly pitchChannelColorsDim: ReadonlyArray<string>    = [Config.channelOneDimColorPallet, Config.channelTwoDimColorPallet, Config.channelThreeDimColorPallet, Config.channelFourDimColorPallet, Config.channelFiveDimColorPallet, Config.channelSixDimColorPallet, Config.channelSevenDimColorPallet, Config.channelEightDimColorPallet, Config.channelNineDimColorPallet, Config.channelTenDimColorPallet, Config.channelElevenDimColorPallet, Config.channelTwelveDimColorPallet];
 		public static readonly pitchChannelColorsBright: ReadonlyArray<string> = [Config.channelOneBrightColorPallet, Config.channelTwoBrightColorPallet, Config.channelThreeBrightColorPallet, Config.channelFourBrightColorPallet, Config.channelFiveBrightColorPallet, Config.channelSixBrightColorPallet, Config.channelSevenBrightColorPallet, Config.channelEightBrightColorPallet, Config.channelNineBrightColorPallet, Config.channelTenBrightColorPallet, Config.channelElevenBrightColorPallet, Config.channelTwelveBrightColorPallet];
@@ -425,6 +426,10 @@ namespace beepbox {
 			Config._centerWave([1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]),
 			Config._centerWave([1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]),
 			Config._centerWave([1.0, -0.9, 0.8, -0.7, 0.6, -0.5, 0.4, -0.3, 0.2, -0.1, 0.0, -0.1, 0.2, -0.3, 0.4, -0.5, 0.6, -0.7, 0.8, -0.9, 1.0]),
+			Config._centerWave([1.0, -1.0, 17.0 / 31.0, 19.0 / 31.0, 21.0 / 31.0, 23.0 / 31.0, 25.0 / 31.0, 27.0 / 31.0, 29.0 / 31.0, 31.0 / 31.0, -31.0 / 31.0, -29.0 / 31.0, -27.0 / 31.0, -25.0 / 31.0, -23.0 / 31.0, -21.0 / 31.0, -19.0 / 31.0, -17.0 / 31.0, -15.0 / 31.0, -13.0 / 31.0, -11.0 / 31.0, -9.0 / 31.0, -7.0 / 31.0, -5.0 / 31.0, -3.0 / 31.0, -1.0 / 31.0]),
+		   Config._centerWave([1.0, 1.0, 12.0, 1.0, 1.0, 8.0, 1.0, 7.0, 1.0, 6.0, 1.0, 4.0, 4.0, 1.0, 4.0, 6.0]),
+		   Config._centerWave([1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0, 15.0, 15.0, 13.0, 11.0, 9.0, 7.0, 5.0, 3.0, 1.0, -1.0, -3.0, -5.0, -7.0, -9.0, -11.0, -13.0, -15.0 , -15.0, -13.0, -11.0, -9.0, -7.0, -5.0, -3.0, -1.0]),
+		   Config._centerWave([22, 22, 16, 6, 0, -3, -8, -10, -13, -16, -19, -19, -20, -22, -22, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, -24, 24, 24, 16, 9, 6, 4, 2, 0, -1, -3, -4, -4, -6, -6, -6, -6, -5, -5, -4, -2, -2, 1, 4, 6, 8, 10, 12, 14, 16, 18, 19, 22, 24])
 		];
 		public static readonly wavesMixC: ReadonlyArray<Float64Array> = [
 			Config._centerWave([1.0 / 15.0, 3.0 / 15.0, 5.0 / 15.0, 7.0 / 15.0, 9.0 / 15.0, 11.0 / 15.0, 13.0 / 15.0, 15.0 / 15.0, 15.0 / 15.0, 13.0 / 15.0, 11.0 / 15.0, 9.0 / 15.0, 7.0 / 15.0, 5.0 / 15.0, 3.0 / 15.0, 1.0 / 15.0, -1.0 / 15.0, -3.0 / 15.0, -5.0 / 15.0, -7.0 / 15.0, -9.0 / 15.0, -11.0 / 15.0, -13.0 / 15.0, -15.0 / 15.0, -15.0 / 15.0, -13.0 / 15.0, -11.0 / 15.0, -9.0 / 15.0, -7.0 / 15.0, -5.0 / 15.0, -3.0 / 15.0, -1.0 / 15.0]),
@@ -1162,7 +1167,7 @@ namespace beepbox {
 		public initToDefault(andResetChannels: boolean = true): void {
 			this.scale = 0;
 			this.theme = 0;
-			this.key = Config.keyNames.length - 1;
+			this.key = Config.keyNames.length - 2;
 			this.mix = 1;
 			this.sampleRate = 2;
 			this.loopStart = 0;
@@ -1557,7 +1562,7 @@ namespace beepbox {
 					this.barCount = Math.max(Config.barCountMin, Math.min(Config.barCountMax, this.barCount));
 					for (let channel = 0; channel < this.getChannelCount(); channel++) {
 						for (let bar = this.channels[channel].bars.length; bar < this.barCount; bar++) {
-							this.channels[channel].bars[bar] = 1;
+							this.channels[channel].bars[bar] = 0;
 						}
 						this.channels[channel].bars.length = this.barCount;
 					}

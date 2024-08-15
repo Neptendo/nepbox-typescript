@@ -36,7 +36,6 @@ SOFTWARE.
 /// <reference path="ImportPrompt.ts" />
 /// <reference path="InstrumentTypePrompt.ts" />
 /// <reference path="ChorusPrompt.ts" />
-/// <reference path="ArchivePrompt.ts" />
 /// <reference path="MixPrompt.ts" />
 /// <reference path="SongDataPrompt.ts" />
 /// <reference path="RefreshPrompt.ts" />
@@ -147,10 +146,10 @@ namespace beepbox {
 		private readonly _optionsMenu: HTMLSelectElement = select({style: "width: 100%;"}, [
 			option("", "Preferences Menu", true, true),
 			option("autoPlay", "Auto Play On Load", false, false),
-			option("autoFollow", "Auto Follow Track", false, false),
+			option("autoFollow", "Auto Follow Playhead", false, false),
 			option("showLetters", "Show Piano", false, false),
 			option("showFifth", "Highlight 'Fifth' Notes", false, false),
-			option("showMore", "Advanced Color Scheme", false, false),
+			option("showMore", "Theme Colors+", false, false),
 			option("showChannels", "Show All Channels", false, false),
 			option("showScrollBar", "Octave Scroll Bar", false, false),
 			option("showVolumeBar", "Show Channel Volume", false, false),
@@ -176,12 +175,6 @@ namespace beepbox {
 				svgElement("path", {d: "M -8 2 L -2 2 L -2 8 L 2 8 L 2 2 L 8 2 L 8 -2 L 2 -2 L 2 -8 L -2 -8 L -2 -2 L -8 -2 z M 0 2 L -4 -2 L -1 -2 L -1 -8 L 1 -8 L 1 -2 L 4 -2 z M -8 -8 L 8 -8 L 8 -9 L -8 -9 L -8 -8 z", fill: "currentColor"}),
 			]),
 		]);
-		private readonly _archiveButton: HTMLButtonElement = button({type: "button"}, [
-			span({ className: "center" }, [text("Load Mods...")]),
-			svgElement("svg", {style: "flex-shrink: 0; position: absolute; left: 0; top: 50%; margin-top: -1em; pointer-events: none;", width: "2em", height: "2em", viewBox: "-13 -13 26 26"}, [
-				svgElement("path", {d: "M 5.78 -1.6 L 7.93 -0.94 L 7.93 0.94 L 5.78 1.6 L 4.85 3.53 L 5.68 5.61 L 4.21 6.78 L 2.36 5.52 L 0.27 5.99 L -0.85 7.94 L -2.68 7.52 L -2.84 5.28 L -4.52 3.95 L -6.73 4.28 L -7.55 2.59 L -5.9 1.07 L -5.9 -1.07 L -7.55 -2.59 L -6.73 -4.28 L -4.52 -3.95 L -2.84 -5.28 L -2.68 -7.52 L -0.85 -7.94 L 0.27 -5.99 L 2.36 -5.52 L 4.21 -6.78 L 5.68 -5.61 L 4.85 -3.53 M 2.92 0.67 L 2.92 -0.67 L 2.35 -1.87 L 1.3 -2.7 L 0 -3 L -1.3 -2.7 L -2.35 -1.87 L -2.92 -0.67 L -2.92 0.67 L -2.35 1.87 L -1.3 2.7 L -0 3 L 1.3 2.7 L 2.35 1.87 z", fill: "currentColor"}),
-			]),
-		]);
 		private readonly _undoButton: HTMLButtonElement = button({type: "button", style: "width: 45%; margin: 0px; margin-top: -2px;"}, [text("Undo")]);
 		private readonly _redoButton: HTMLButtonElement = button({type: "button", style: "width: 45%; margin: 0px; margin-top: -2px;"}, [text("Redo")]);
 		private readonly _exportButton: HTMLButtonElement = button({type: "button"}, [
@@ -195,7 +188,6 @@ namespace beepbox {
 		private readonly _mixSelect: HTMLSelectElement = buildOptions(select({}), Config.mixNames);
 		private readonly _sampleRateSelect: HTMLSelectElement = buildOptions(select({}), Config.sampleRateNames);
 		private readonly _mixHint: HTMLAnchorElement = <HTMLAnchorElement> html.element("a", { className: "hintButton" }, [text("?")]);
-		private readonly _archiveHint: HTMLAnchorElement = <HTMLAnchorElement> html.element("a", { className: "hintButton" }, [text("?")]);
 		private readonly _mixSelectRow: HTMLDivElement = div({className: "selectRow"}, [this._mixHint, this._mixSelect]);
 		// private readonly _chipHint: HTMLAnchorElement = <HTMLAnchorElement> html.element("a", { className: "hintButton" }, [text("?")]);
 		private readonly _instrumentTypeHint: HTMLAnchorElement = <HTMLAnchorElement> html.element("a", { className: "hintButton" }, [text("?")]);
@@ -316,7 +308,7 @@ namespace beepbox {
 		public readonly mainLayer: HTMLDivElement = div({className: "beepboxEditor", tabIndex: "0"}, [
 			this._editorBox,
 			div({className: "editor-widget-column"}, [
-				div({ style: "text-align: center; align-items: center;" }, [text("ModBox 3.3.0-B_1"), this._archiveHint]),
+				div({ style: "text-align: center; align-items: center;" }, [text("Nepbox 2.0")]),
 				div({ style: "margin: 5px 0; display: flex; flex-direction: row; align-items: center;" }, [
 					this._playButton,
 					div({ style: "width: 1px; height: 10px;" }),
@@ -444,13 +436,11 @@ namespace beepbox {
 			this._undoButton.addEventListener("click", this._advancedUndo);
 			this._redoButton.addEventListener("click", this._advancedRedo);
 			this._exportButton.addEventListener("click", this._openExportPrompt);
-			this._archiveButton.addEventListener("click", this._openArchivePrompt);
 			this._volumeSlider.addEventListener("input", this._setVolumeSlider);
 			// this._chipHint.addEventListener("click", this._openChipPrompt);
 			this._instrumentTypeHint.addEventListener("click", this._openInstrumentTypePrompt);
 			this._mixHint.addEventListener("click", this._openMixPrompt);
 			this._chorusHint.addEventListener("click", this._openChorusPrompt);
-			this._archiveHint.addEventListener("click", this._openArchivePrompt);
 			
 			this._editorBox.addEventListener("mousedown", this._refocusStage);
 			this.mainLayer.addEventListener("keydown", this._whenKeyPressed);
@@ -485,9 +475,6 @@ namespace beepbox {
 					case "duration":
 						this.prompt = new SongDurationPrompt(this._doc, this);
 						break;
-					case "archive":
-						this.prompt = new ArchivePrompt(this._doc, this);
-						break;
 					case "instrumentType":
 						this.prompt = new InstrumentTypePrompt(this._doc, this);
 						break;
@@ -508,9 +495,6 @@ namespace beepbox {
 						break;
 					case "refresh key":
 						this.prompt = new RefreshKeyPrompt(this._doc, this, this._keySelect.selectedIndex);
-						break;
-					case "archive":
-						this.prompt = new ArchivePrompt(this._doc, this);
 						break;
 					default:
 						throw new Error("Unrecognized prompt type.");
@@ -764,6 +748,35 @@ namespace beepbox {
 			this.whenUpdated();
 		}
 		
+		private _soloChannel = (channelIndexToSolo: number): void => {
+			let alreadySoloed: boolean = true;
+			outerloop: for (let i = 0; i < this._doc.song.getChannelCount(); i++) {
+				const shouldBeMuted: boolean = i != channelIndexToSolo;
+				const channel = this._doc.song.channels[i];
+				for (let insts = 0; insts < channel.instruments.length; insts++) {
+					var isMuted: boolean = channel.instruments[insts].imute == 1;
+					if (isMuted != shouldBeMuted){ 
+						alreadySoloed = false;
+						break outerloop;
+					}
+				}
+			}
+			for (let i = 0; i< this._doc.song.getChannelCount(); i++){
+				const channel = this._doc.song.channels[i];
+				for (let insts = 0; insts < channel.instruments.length; insts++){
+			 		const instrument = channel.instruments[insts];
+					this._doc.record(new ChangeOtherImute(this._doc, i, insts, alreadySoloed ? 0 : (i != channelIndexToSolo ? 1 : 0)));
+				}
+			}
+			const instrument = this._doc.song.channels[this._doc.channel].instruments[this._doc.getCurrentInstrument()];
+			this._instrumentSettingsGroup.style.color = "#cccccc";
+			this._advancedInstrumentSettingsGroup.style.color = "#aaaaaa";
+			this._advancedSongSettings.style.color = "#aaaaaa";
+			this._imuteButton.innerText = "◎";
+			this._iMmuteButton.innerText = "◎";
+			this.whenUpdated();
+		}
+
 		public updatePlayButton(): void {
 			if (this._doc.synth.playing) {
 				this._playButton.classList.remove("playButton");
@@ -791,6 +804,10 @@ namespace beepbox {
 			//if (event.ctrlKey)
 			//trace(event.keyCode)
 			switch (event.keyCode) {
+				case 83: // s
+					this._soloChannel(this._doc.channel);
+					event.preventDefault();
+					break;
 				case 77: // m
 					this._muteInstrument();
 					event.preventDefault();
@@ -977,10 +994,6 @@ namespace beepbox {
 			this._openPrompt("chorus");
 		}
 		
-		private _openArchivePrompt = (): void => {
-			this._openPrompt("archive");
-		}
-
 		public refreshNow = (): void => {
 			setTimeout(() => { // Prompts seem to get stuck if reloading is done too quickly.
 				location.reload();
@@ -1108,9 +1121,6 @@ namespace beepbox {
 					break;
 				case "duration":
 					this._openPrompt("duration");
-					break;
-				case "archive":
-					this._openPrompt("archive");
 					break;
 			}
 			this._editMenu.selectedIndex = 0;

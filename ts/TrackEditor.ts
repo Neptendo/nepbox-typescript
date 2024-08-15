@@ -127,7 +127,7 @@ namespace beepbox {
 		public readonly container: HTMLElement = html.div({style: "height: 128px; position: relative; overflow:hidden;"}, [this._svg, this._select]);
 		
 		private readonly _boxContainer = <SVGGElement> svgElement("g");
-		private readonly _playhead = <SVGRectElement> svgElement("rect", {fill: "white", x: 0, y: 0, width: 4, height: 128});
+		private readonly _playhead = <SVGRectElement> svgElement("rect", {fill: "#00f2ff", x: 0, y: 0, width: 4, height: 128});
 		private readonly _boxHighlight = <SVGRectElement> svgElement("rect", {fill: "none", stroke: "white", "stroke-width": 2, "pointer-events": "none", x: 1, y: 1, width: 30, height: 30});
 		private readonly _upHighlight = <SVGPathElement> svgElement("path", {fill: "black", stroke: "black", "stroke-width": 1, "pointer-events": "none"});
 		private readonly _downHighlight = <SVGPathElement> svgElement("path", {fill: "black", stroke: "black", "stroke-width": 1, "pointer-events": "none"});

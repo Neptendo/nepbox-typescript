@@ -34,7 +34,7 @@ namespace beepbox {
 		
 		public readonly container: HTMLDivElement = div({className: "prompt", style: "width: 250px;"}, [
                 div({ style: "font-size: 2em" }, [text("Song Data")]),
-				div({ style: "text-align: left;" }, [text('You are on update Modbox 3.3.0-B_1.')]),
+				div({ style: "text-align: left;" }, [text('You are on update Nepbox 2.0')]),
 				div({ style: "text-align: left;" }, [text('Your song is ' + this._doc.synth.totalSeconds + ' seconds long.')]),
 				div({ style: "text-align: left;" }, [text('Your song runs at ' + this._doc.song.getBeatsPerMinute() + ' beats per minute.')]),
 				div({ style: "text-align: left;" }, [text('There are currently ' + this._doc.song.getChannelUnusedCount() + ' unused channels in your song out of 16.')]),

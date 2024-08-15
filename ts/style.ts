@@ -365,7 +365,7 @@ styleSheet.appendChild(document.createTextNode(`
 	font-size: inherit;
 	margin: 0;
 	cursor: pointer;
-	background-color: black;
+	background-color: #1a0a24;
 	touch-action: pan-y;
 }
 .beepboxEditor input[type=range]:focus {

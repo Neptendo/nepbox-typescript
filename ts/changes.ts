@@ -333,7 +333,18 @@ namespace beepbox {
 			}
 		}
 	}
-	
+
+	export class ChangeOtherImute extends Change {
+		constructor(doc: SongDocument, channelIndex: number, instrumentIndex: number, newValue: number){
+			super();
+			const oldValue: number = doc.song.channels[channelIndex].instruments[instrumentIndex].imute = newValue;
+			if (oldValue != newValue) {
+				doc.song.channels[channelIndex].instruments[instrumentIndex].imute = newValue;
+				doc.notifier.changed();
+				this._didSomething();
+		}
+	}
+}
 	export class ChangeIpan extends Change {
 		constructor(doc: SongDocument, oldValue: number, newValue: number) {
 			super();
