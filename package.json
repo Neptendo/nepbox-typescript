@@ -1,15 +1,16 @@
 {
-	"name": "ModBox",
-	"version": "4.2",
-	"description": "Modbox is an online tool for sketching and sharing instrumental music.",
-	"author": "John Nesky",
+	"name": "NepBox",
+	"version": "2.0",
+	"description": "NepBox is an online tool for sketching and sharing instrumental music.",
+	"author": "Neptendo",
 	"license": "MIT",
 	"homepage": "https://www.beepbox.co",
 	"type": "module",
 	"scripts": {
 		"build": "npm run build-synth && npm run build-editor",
 		"build-synth": "bash ./compile_beepbox_synth.sh",
-		"build-editor": "bash ./compile_beepbox_editor.sh"
+		"build-editor": "bash ./compile_beepbox_editor.sh",
+		"build-player": "bash ./compile_beepbox_player.sh"
 	},
 	"repository": {
 		"type": "git",
