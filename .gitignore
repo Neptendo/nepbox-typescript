@@ -1,4 +1,8 @@
+.dropbox
+.DS_Store
 /node_modules
-/beepbox-synth/beepbox_editor.js
-/beepbox-synth/beepbox_editor.min.js
-/beepbox-synth/beepbox_offline.html
+/website/beepbox_editor.js
+/website/beepbox_editor.min.js
+/website/beepbox_offline.html
+/node_modules
+/build

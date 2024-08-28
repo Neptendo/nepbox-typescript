@@ -904,32 +904,30 @@ import { ColorConfig } from "./ColorConfig";
 	
 	public render(): void {
 
-		if (this._renderedFifths != this._doc.showFifth) {
-			if (this._renderedACS == false) {
-			this._renderedFifths = this._doc.showFifth;
-				this._backgroundPitchRows[7].setAttribute("fill", this._doc.showFifth ? ColorConfig.fifthNote : ColorConfig.pitchBackground);
-				}
-		}
-
 			if (this._doc.showMore == false) {
+
+				if (this._renderedFifths != this._doc.showFifth) {
+					this._renderedFifths = this._doc.showFifth;
+					this._backgroundPitchRows[7].setAttribute("fill", this._doc.showFifth ? ColorConfig.fifthNote : ColorConfig.pitchBackground);
+				}
 
 				if (this._renderedPiano == true) {
 					this._renderedPiano = false;
 				}
-			if (this._renderedACS == false) {
-				this._backgroundPitchRows[0].setAttribute("fill", this._doc.showMore ? ColorConfig.tonic : ColorConfig.tonic);
+			if (this._renderedACS != this._doc.showMore) {
+				this._backgroundPitchRows[0].setAttribute("fill", ColorConfig.tonic);
 				this._backgroundPitchRows[1].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch1Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[2].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch2Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[3].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch3Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[4].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch4Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[5].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch5Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[6].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch6Background : ColorConfig.pitchBackground);
-				this._backgroundPitchRows[7].setAttribute("fill", this._doc.showMore ? ColorConfig.fifthNote : ColorConfig.fifthNote);
+				this._backgroundPitchRows[7].setAttribute("fill", this._doc.showFifth ? ColorConfig.fifthNote : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[8].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch8Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[9].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch9Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[10].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch10Background : ColorConfig.pitchBackground);
 				this._backgroundPitchRows[11].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch11Background : ColorConfig.pitchBackground);
-				this._renderedACS = true;
+				this._renderedACS = this._doc.showMore;
 				console.log("this._renderedACS (acs disabled): "+this._renderedACS);
 			}
 			this._setKey = -1;
@@ -1030,8 +1028,8 @@ import { ColorConfig } from "./ColorConfig";
 						} else {
 							this._backgroundPitchRows[11].setAttribute("fill", this._doc.showMore ? "var(--pitch-black-key, var(--pitch-background))" : ColorConfig.pitchBackground);
 						}
-					if (this._renderedACS == true) {
-					this._renderedACS = false;
+					if (this._renderedACS != this._doc.showMore) {
+					this._renderedACS = this._doc.showMore;
 					console.log("this._renderedACS (in piano): "+this._renderedACS);
 					}
 				} 
