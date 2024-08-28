@@ -6,3 +6,5 @@
 /website/beepbox_offline.html
 /node_modules
 /build
+website/beepbox_editor.js.map
+website/beepbox_editor.min.js.map
