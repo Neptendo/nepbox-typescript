@@ -933,7 +933,7 @@ import { ColorConfig } from "./ColorConfig";
 			this._setKey = -1;
 		} else {
 			if (ColorConfig.usesPianoScheme == false) {
-				if (this._renderedACS != this._doc.showMore) {
+				if (this._renderedACS != this._doc.showMore || this._renderedPiano == true) {
 					this._backgroundPitchRows[0].setAttribute("fill", this._doc.showMore ? ColorConfig.tonic : ColorConfig.tonic);
 					this._backgroundPitchRows[1].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch1Background :  ColorConfig.pitchBackground);
 					this._backgroundPitchRows[2].setAttribute("fill", this._doc.showMore ? ColorConfig.pitch2Background :  ColorConfig.pitchBackground);

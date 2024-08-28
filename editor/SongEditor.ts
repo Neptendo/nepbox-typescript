@@ -112,7 +112,7 @@ const {button, div, span, select, option, input, a} = HTML;
 	export class SongEditor {
 		public prompt: Prompt | null = null;
 		
-		private readonly _patternEditor: PatternEditor = new PatternEditor(this._doc);
+		public readonly _patternEditor: PatternEditor = new PatternEditor(this._doc);
 		private readonly _trackEditor: TrackEditor = new TrackEditor(this._doc);
 		private readonly _loopEditor: LoopEditor = new LoopEditor(this._doc);
 		private readonly _trackContainer: HTMLDivElement = div({class: "trackContainer"}, 
