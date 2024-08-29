@@ -1,22 +1,24 @@
 #!/bin/bash
+set -e
 
-# Compile ts/synth.ts into beepbox_synth.js
-tsc \
-	--target ES5 \
-	--strictNullChecks \
-	--noImplicitAny \
-	--noImplicitReturns \
-	--noFallthroughCasesInSwitch \
-	--removeComments \
-	ts/synth.ts \
-	--out beepbox-synth/beepbox_synth.js
+# Compile synth/synth.ts into build/synth/synth.js and dependencies
+npx tsc -p tsconfig_synth_only.json
 
-# Minify beepbox_synth.js into beepbox_synth.min.js
-uglifyjs \
+# Combine build/synth/synth.js and dependencies into website/beepbox_synth.js
+npx rollup build/synth/synth.js \
+	--file website/beepbox_synth.js \
+	--format iife \
+	--output.name beepbox \
+	--context exports \
+	--sourcemap \
+	--plugin rollup-plugin-sourcemaps \
+	--plugin @rollup/plugin-node-resolve
+
+# Minify website/beepbox_synth.js into website/beepbox_synth.min.js
+npx terser \
+	website/beepbox_synth.js \
+	--source-map "content='website/beepbox_synth.js.map',url=beepbox_synth.min.js.map" \
+	-o website/beepbox_synth.min.js \
 	--compress \
 	--mangle \
-	--mangle-props \
-	--mangle-regex="/^_.+/" \
-	--screw-ie8 \
-	beepbox-synth/beepbox_synth.js \
-	-o beepbox-synth/beepbox_synth.min.js
+	--mangle-props regex="/^_.+/;"

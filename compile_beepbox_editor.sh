@@ -1,28 +1,30 @@
 #!/bin/bash
+set -e
 
-# Compile ts/SongEditor.ts into beepbox_editor.js
-npx tsc \
-	--target ES5 \
-	--strictNullChecks \
-	--noImplicitAny \
-	--noImplicitReturns \
-	--noFallthroughCasesInSwitch \
-	--removeComments \
-	ts/SongEditor.ts \
-	--out beepbox-synth/beepbox_editor.js
+# Compile editor/main.ts into build/editor/main.js and dependencies
+npx tsc
 
-# Minify beepbox_editor.js into beepbox_editor.min.js
-npx uglifyjs \
+# Combine build/editor/main.js and dependencies into website/beepbox_editor.js
+npx rollup build/editor/main.js \
+	--file website/beepbox_editor.js \
+	--format iife \
+	--output.name beepbox \
+	--context exports \
+	--sourcemap \
+	--plugin rollup-plugin-sourcemaps \
+	--plugin @rollup/plugin-node-resolve
+
+# Minify website/beepbox_editor.js into website/beepbox_editor.min.js
+npx terser \
+	website/beepbox_editor.js \
+	--source-map "content='website/beepbox_editor.js.map',url=beepbox_editor.min.js.map" \
+	-o website/beepbox_editor.min.js \
 	--compress \
 	--mangle \
-	--mangle-props \
-	--mangle-regex="/^_.+/" \
-	--screw-ie8 \
-	beepbox-synth/beepbox_editor.js \
-	-o beepbox-synth/beepbox_editor.min.js
+	--mangle-props regex="/^_.+/;"
 
 # Combine the html and js into a single file for the offline version
 sed \
-	-e '/INSERT_BEEPBOX_SOURCE_HERE/{r beepbox-synth/beepbox_editor.min.js' -e 'd' -e '}' \
-	beepbox-synth/beepbox_offline_template.html \
-	> beepbox-synth/beepbox_offline.html
+	-e '/INSERT_BEEPBOX_SOURCE_HERE/{r website/beepbox_editor.min.js' -e 'd' -e '}' \
+	website/beepbox_offline_template.html \
+	> website/beepbox_offline.html
