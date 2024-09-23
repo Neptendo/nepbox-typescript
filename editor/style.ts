@@ -29,7 +29,8 @@ background: ${ColorConfig.pageMargin};
 }
 
 .beepboxEditor {
-	display: flex;
+	display: grid;
+	grid-template-areas: "pattern-area settings-area advanced-settings-area" "pattern-area   song-settings-area advanced-settings-area" "track-area   song-settings-area advanced-settings-area";
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -240,6 +241,10 @@ background: ${ColorConfig.pageMargin};
 	pointer-events: none;
 }
 
+.beepboxEditor .song-settings-area {
+	grid-area: song-settings-area;
+}
+
 .beepboxEditor button.nextBarButton::before {
 	content: "";
 	position: absolute;
@@ -301,7 +306,7 @@ background: ${ColorConfig.pageMargin};
 	flex-shrink: 1;
 }
 
-.beepboxEditor .editor-widget-column {
+.beepboxEditor .settings-area {
 	display: flex;
 	flex-direction: column;
 }
@@ -319,6 +324,23 @@ background: ${ColorConfig.pageMargin};
 .beepboxEditor .editor-settings {
 	display: flex;
 	flex-direction: column;
+	margin-left: 6px;
+}
+
+.beepboxEditor .layout-option {
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	color: ${ColorConfig.secondaryText};
+	width: 25%;
+}
+
+.beepboxEditor .layout-option input {
+	display: none;
+}
+
+.beepboxEditor .layout-option input:checked ~ * {
+	color: ${ColorConfig.primaryText};
 }
 
 .beepboxEditor .editor-song-settings {
@@ -330,9 +352,18 @@ background: ${ColorConfig.pageMargin};
 	display: flex;
 	flex-direction: column;
 }
-.beepboxEditor .editor-right-widget-column {
+.beepboxEditor .advanced-settings-area {
 	display: flex;
 	flex-direction: column;
+	grid-area: advanced-settings-area;
+}
+
+.beepboxEditor .editorBox {
+	grid-area: pattern-area;
+}
+
+.beepboxEditor .track-area {
+	grid-area: track-area;
 }
 
 .beepboxEditor .editor-right-menus {
@@ -459,6 +490,7 @@ background: ${ColorConfig.pageMargin};
 	}
 	.beepboxEditor .trackContainer {
 		width: 512px;
+		grid-area: track-editor;
 	}
 	.beepboxEditor .trackSelectBox {
 		display: none;
@@ -485,12 +517,13 @@ background: ${ColorConfig.pageMargin};
 		flex-grow: 1;
 		margin-left: 10px;
 	}
-	.beepboxEditor .editor-widget-column {
+	.beepboxEditor .settings-area {
 		margin-left: 6px;
 		width: 14em;
 		flex-direction: column;
+		grid-area: settings-area;
 	}
-	.beepboxEditor .editor-right-widget-column {
+	.beepboxEditor .advanced-settings-area {
 		margin-left: 6px;
 		width: 14em;
 		flex-direction: column;
@@ -535,6 +568,7 @@ background: ${ColorConfig.pageMargin};
 	}
 	.beepboxEditor .editorBox {
 		max-height: 75vh;
+		grid-area: pattern-area;
 	}
 	.beepboxEditor .editor-menus {
 		flex-direction: row;
@@ -581,13 +615,14 @@ background: ${ColorConfig.pageMargin};
 		flex-grow: 1;
 		margin: 0 .2em;
 	}
-	.beepboxEditor .editor-widget-column {
+	.beepboxEditor .settings-area {
 		flex-direction: column-reverse;
 	}
 	.beepboxEditor .editor-settings {
 		flex-direction: row;
+		margin-left: 6px;
 	}
-	.beepboxEditor .editor-right-widget-column {
+	.beepboxEditor .advanced-settings-area {
 		flex-direction: column-reverse;
 	}
 	.beepboxEditor .editor-right-settings {

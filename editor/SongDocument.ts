@@ -25,6 +25,7 @@ import { ChangeNotifier } from "./ChangeNotifier";
 import { Change } from "./Change";
 import { ChangeSong } from "./changes";
 import { ColorConfig } from "./ColorConfig"; 
+import { Layout } from "./Layout";
 
 	interface HistoryState {
 		canUndo: boolean;
@@ -50,6 +51,7 @@ import { ColorConfig } from "./ColorConfig";
 		public showChannels: boolean;
 		public showScrollBar: boolean;
 		public showVolumeBar: boolean;
+		public layout: string;
 		public advancedSettings: boolean;
 		public volume: number = 75;
 		public trackVisibleBars: number = 16;
@@ -76,6 +78,7 @@ import { ColorConfig } from "./ColorConfig";
 			this.showScrollBar = localStorage.getItem("showScrollBar") == "true";
 			this.showVolumeBar = localStorage.getItem("showVolumeBar") == "true";
 			this.advancedSettings = localStorage.getItem("advancedSettings") != "false";
+			this.layout = localStorage.getItem("layout") || "small";
 			if (localStorage.getItem("volume") != null) this.volume = Number(localStorage.getItem("volume"));
 			
 			this.synth.volume = this._calcVolume();
@@ -85,6 +88,13 @@ import { ColorConfig } from "./ColorConfig";
 			} else {
 				window.localStorage.setItem("modboxTheme", "default");
 				ColorConfig.setTheme("default");
+			}
+
+			if (window.localStorage.getItem("layout") != null) {
+				Layout.setLayout(String(window.localStorage.getItem("layout")));
+			} else {
+				window.localStorage.setItem("layout", "small");
+				Layout.setLayout("small");
 			}
 
 			let state: HistoryState | null = window.history.state;
@@ -236,6 +246,14 @@ import { ColorConfig } from "./ColorConfig";
 			this.synth.volume = this._calcVolume();
 		}
 		
+		public getMobileLayout(): boolean {
+			return window.innerWidth <= 710;
+		}
+
+		public getFullScreen(): boolean {
+			return !this.getMobileLayout() && (this.layout != "small");
+		}
+
 		private _calcVolume(): number {
 			return Math.min(1.0, Math.pow(this.volume / 50.0, 0.5)) * Math.pow(2.0, (this.volume - 75.0) / 25.0);
 		}

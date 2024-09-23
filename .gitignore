@@ -8,3 +8,7 @@
 /build
 website/beepbox_editor.js.map
 website/beepbox_editor.min.js.map
+website/beepbox_synth.js
+website/beepbox_synth.js.map
+website/beepbox_synth.min.js
+website/beepbox_synth.min.js.map

@@ -45,6 +45,7 @@ import { SongDurationPrompt } from "./SongDurationPrompt";
 import { InstrumentTypePrompt } from "./InstrumentTypePrompt";
 import { ManualPrompt } from "./ManualPrompt";
 import { ThemePrompt } from "./ThemePrompt";
+import { LayoutPrompt } from "./LayoutPrompt";
 import { ColorConfig } from "./ColorConfig"; 
 
 const {button, div, span, select, option, input, a} = HTML;
@@ -122,12 +123,12 @@ const {button, div, span, select, option, input, a} = HTML;
 		private readonly _barScrollBar: BarScrollBar = new BarScrollBar(this._doc, this._trackContainer);
 		private readonly _octaveScrollBar: OctaveScrollBar = new OctaveScrollBar(this._doc);
 		private readonly _piano: Piano = new Piano(this._doc);
-		private readonly _editorBox: HTMLDivElement = div({}, 
-			div({class: "editorBox", style: "height: 481px; display: flex; flex-direction: row; margin-bottom: 6px;"}, 
+		private readonly _editorBox: HTMLDivElement = div({class: "editorBox", style: "height: 481px; display: flex; flex-direction: row; margin-bottom: 6px;"}, 
 				this._piano.container,
 				this._patternEditor.container,
 				this._octaveScrollBar.container,
-			),
+		);
+		private readonly _trackEditorBox: HTMLDivElement = div({class:"track-area"}, 
 			this._trackContainer,
 			this._barScrollBar.container,
 		);
@@ -166,6 +167,7 @@ const {button, div, span, select, option, input, a} = HTML;
 			option({value: "showVolumeBar"}, "Show Channel Volume"),
 			option({value: "advancedSettings"}, "Enable Advanced Settings"),
 			option({value: "themes"}, "Set Theme..."),
+			option({value: "layouts"}, "Set Layout..."),
 		);
 		private readonly _newSongButton: HTMLButtonElement = button({type: "button"}, 
 			div({},"New"),
@@ -301,7 +303,7 @@ const {button, div, span, select, option, input, a} = HTML;
 			div({ class: "selectRow" }, span({}, div({},"Detune: ")), this._detuneSlider.input),
 			div({ class: "selectRow" }, span({}, div({},"Muff: ")), this._muffSlider.input),
 		);
-		private readonly _advancedSettingsContainer: HTMLDivElement = div({ class: "editor-right-widget-column", style: "margin: 0px 5px;" }, 
+		private readonly _advancedSettingsContainer: HTMLDivElement = div({ class: "advanced-settings-area", style: "margin: 0px 5px;" }, 
 			div({ class: "editor-widgets" }, 
 				div({ style: "text-align: center;" }, div({},"Advanced Settings")),
 				div({ style: "margin: 2px 0; display: flex; flex-direction: row; align-items: center;" }, ),
@@ -323,7 +325,8 @@ const {button, div, span, select, option, input, a} = HTML;
 		);
 		public readonly mainLayer: HTMLDivElement = div({class: "beepboxEditor", tabIndex: "0"}, 
 			this._editorBox,
-			div({class: "editor-widget-column"}, 
+			this._trackEditorBox,
+			div({class: "settings-area"}, 
 				div({ style: "align-items: center; display: flex; justify-content: center;" }, div({},"NepBox 2.0"), this._archiveHint),
 				div({ style: "margin: 5px 0; gap: 3px; display: flex; flex-direction: column; align-items: center;" }, 
 					div({ style: "display:flex; flex-direction:row;" },
@@ -364,21 +367,21 @@ const {button, div, span, select, option, input, a} = HTML;
 							),
 						),
 					),
-					div({ class: "editor-settings" }, 
-						div({ class: "editor-song-settings" }, 
-							div({style: "margin: 3px 0; text-align: center; color: #999;"}, 
-								div({},"Song Settings")
-							),
-							div({ class: "selectRow" }, span({}, div({},"Scale: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._scaleSelect)),
-							div({ class: "selectRow" }, span({}, div({},"Key: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._keySelect)),
-							div({ class: "selectRow" }, span({}, div({},"Tempo: ")), this._tempoSlider.input),
-							div({ class: "selectRow" }, span({}, div({},"Reverb: ")), this._reverbSlider.input),
-							div({ class: "selectRow" }, span({}, div({},"Rhythm: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._partSelect)),
-						),
-						div({class: "editor-instrument-settings"}, 
-							this._instrumentSettingsGroup,
-						),
+				),
+			),
+			div({ class: "song-settings-area editor-settings" }, 
+				div({ class: "editor-song-settings" }, 
+					div({style: "margin: 3px 0; text-align: center; color: #999;"}, 
+						div({},"Song Settings")
 					),
+					div({ class: "selectRow" }, span({}, div({},"Scale: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._scaleSelect)),
+					div({ class: "selectRow" }, span({}, div({},"Key: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._keySelect)),
+					div({ class: "selectRow" }, span({}, div({},"Tempo: ")), this._tempoSlider.input),
+					div({ class: "selectRow" }, span({}, div({},"Reverb: ")), this._reverbSlider.input),
+					div({ class: "selectRow" }, span({}, div({},"Rhythm: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._partSelect)),
+				),
+				div({class: "editor-instrument-settings"}, 
+					this._instrumentSettingsGroup,
 				),
 			),
 			this._advancedSettingsContainer,
@@ -535,6 +538,9 @@ const {button, div, span, select, option, input, a} = HTML;
 						break;	
 					case "themes":
 						this.prompt = new ThemePrompt(this._doc);
+						break;	
+					case "layouts":
+						this.prompt = new LayoutPrompt(this._doc);
 						break;	
 					default:
 						throw new Error("Unrecognized prompt type.");
@@ -1274,6 +1280,9 @@ const {button, div, span, select, option, input, a} = HTML;
 				case "themes":
 					this._openPrompt("themes");
 					break;	
+				case "layouts":
+					this._openPrompt("layouts");
+					break;		
 			}
 			this._optionsMenu.selectedIndex = 0;
 			this._doc.notifier.changed();
