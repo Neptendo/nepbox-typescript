@@ -348,7 +348,9 @@ import { ColorConfig } from "./ColorConfig";
 					}
 					this._grid[y].length = this._doc.song.barCount;
 				}
-				
+			}
+
+			if (this._renderedBarCount != this._doc.song.barCount) {
 				this._renderedBarCount = this._doc.song.barCount;
 				const editorWidth = 32 * this._doc.song.barCount;
 				this.container.style.width = editorWidth + "px";

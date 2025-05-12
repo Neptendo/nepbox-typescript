@@ -32,7 +32,7 @@ import { LoopEditor } from "./LoopEditor";
 import { BarScrollBar } from "./BarScrollBar";
 import { OctaveScrollBar } from "./OctaveScrollBar";
 import { Piano } from "./Piano";
-import { ChangeInsertBars, ChangeTransition, ChangeAlgorithm, ChangeBlend, ChangeChannelBar, ChangeChorus, ChangeDetune, ChangeEffect,ChangeFMChorus, ChangeFeedbackAmplitude, ChangeFeedbackEnvelope, ChangeFeedbackType, ChangeFilter, ChangeHarm, ChangeImute, ChangeInstrumentType, ChangeIpan, ChangeKey,  ChangeMix, ChangeMuff, ChangeOctoff, ChangeOperatorAmplitude, ChangeOperatorEnvelope, ChangeOperatorFrequency, ChangePartsPerBeat, ChangePaste, ChangePatternInstrument, ChangeReverb, ChangeRiff, ChangeSampleRate, ChangeScale, ChangeSong, ChangeTempo, ChangeTranspose, ChangeVolume, ChangeWave, ChangeDeleteBars, ChangeRemoveChannel, ChangeAddChannel, ChangeEnsurePatternExists } from "./changes";
+import { ChangeInsertBars, ChangeTransition, ChangeAlgorithm, ChangeBlend, ChangeChannelBar, ChangeChorus, ChangeDetune, ChangeEffect,ChangeFMChorus, ChangeFeedbackAmplitude, ChangeFeedbackEnvelope, ChangeFeedbackType, ChangeFilter, ChangeHarm, ChangeImute, ChangeInstrumentType, ChangeIpan, ChangeKey,  ChangeMix, ChangeMuff, ChangeOctoff, ChangeOperatorAmplitude, ChangeOperatorEnvelope, ChangeOperatorFrequency, ChangePartsPerBeat, ChangePaste, ChangePatternInstrument, ChangeReverb, ChangeRiff, ChangeSampleRate, ChangeScale, ChangeSong, ChangeTempo, ChangeTranspose, ChangeVolume, ChangeWave, ChangeDeleteBars, ChangeRemoveChannel, ChangeEnsurePatternExists } from "./changes";
 import { MixPrompt} from "./MixPrompt";
 import { ChorusPrompt } from "./ChorusPrompt";
 import { ExportPrompt } from "./ExportPrompt";
@@ -120,6 +120,7 @@ const {button, div, span, select, option, input, a} = HTML;
 			this._trackEditor.container,
 			this._loopEditor.container,
 		);
+		private readonly _trackVisibleArea: HTMLDivElement = div({style: "position: absolute; width: 100%; height: 100%; pointer-events: none;"});
 		private readonly _barScrollBar: BarScrollBar = new BarScrollBar(this._doc, this._trackContainer);
 		private readonly _octaveScrollBar: OctaveScrollBar = new OctaveScrollBar(this._doc);
 		private readonly _piano: Piano = new Piano(this._doc);
@@ -128,8 +129,13 @@ const {button, div, span, select, option, input, a} = HTML;
 				this._patternEditor.container,
 				this._octaveScrollBar.container,
 		);
-		private readonly _trackEditorBox: HTMLDivElement = div({class:"track-area"}, 
+		//private readonly _trackVisibleArea: HTMLDivElement = div({style: "position: absolute; width: 100%; height: 100%; pointer-events: none;"});
+		private readonly _trackAndMuteContainer: HTMLDivElement = div({class: "trackAndMuteContainer prefers-big-scrollbars"},
 			this._trackContainer,
+			this._trackVisibleArea,
+		);
+		private readonly _trackEditorBox: HTMLDivElement = div({class:"track-area"}, 
+			this._trackAndMuteContainer,
 			this._barScrollBar.container,
 		);
 		private readonly _playButton: HTMLButtonElement = button({style: "width:0; flex:2;", type: "button"});
@@ -233,7 +239,7 @@ const {button, div, span, select, option, input, a} = HTML;
 		private readonly _instrumentMVolumeSlider: Slider = new Slider(input({style: "margin: 8px; width: 60px;", type: "range", min: "-5", max: "0", value: "0", step: "1"}), this._doc, (oldValue: number, newValue: number) => new ChangeVolume(this._doc, oldValue, -newValue));
 		private readonly _instrumentVolumeSliderRow: HTMLDivElement = div({class: "selectRow"}, span({}, div({},"Volume: ")), this._instrumentVolumeSlider.input, this._imuteButton);
 		private readonly _instrumentMVolumeSliderRow: HTMLDivElement = div({class: "selectRow"}, span({}, div({},"Volume: ")), this._instrumentMVolumeSlider.input, this._iMmuteButton);
-		private readonly _instrumentSettingsLabel: HTMLDivElement = div({ style: "margin: 3px 0; text-align: center;" }, div({},"Instrument Settings"));
+		private readonly _SettingsLabel: HTMLDivElement = div({ style: "margin: 3px 0; text-align: center; color: rgb(170, 170, 170);" }, div({},"Settings"));
 		private readonly _advancedInstrumentSettingsLabel: HTMLDivElement = div({ style: "margin: 3px 0; text-align: center;" }, div({},"Advanced Instrument Settings"));
 		private readonly _waveSelect: HTMLSelectElement = buildOptions(select({}), Config.waveNames);
 		private readonly _drumSelect: HTMLSelectElement = buildOptions(select({}), Config.drumNames);
@@ -267,8 +273,15 @@ const {button, div, span, select, option, input, a} = HTML;
 			this._feedbackAmplitudeSlider.input,
 			div({class: "selectContainer", style: "width: 5em; margin-left: .3em;"}, this._feedbackEnvelopeSelect),
 		);
-		private readonly _instrumentSettingsGroup: HTMLDivElement = div({}, 
-			this._instrumentSettingsLabel,
+
+		private readonly _songSettingsButton: HTMLButtonElement = button({style:"flex: 1; border-bottom: solid 2px var(--link-accent);"}, "Song");
+		private readonly _instSettingsButton: HTMLButtonElement = button({style:"flex: 1;"}, "Instrument");
+		private readonly _settingsTabs: HTMLDivElement = div({style:"display: flex; gap: 3px;"},
+				this._songSettingsButton,
+				this._instSettingsButton
+		);
+
+		private readonly _instrumentSettingsGroup: HTMLDivElement = div({style:"display:none;"}, 
 			this._instrumentSelectRow,
 			this._instrumentTypeSelectRow,
 			this._instrumentMVolumeSliderRow,
@@ -285,6 +298,13 @@ const {button, div, span, select, option, input, a} = HTML;
 			this._phaseModGroup,
 			this._feedbackRow1,
 			this._feedbackRow2,
+		);
+		private readonly _songSettingsGroup: HTMLDivElement = div({ class: "editor-song-settings" }, 
+			div({ class: "selectRow" }, span({}, div({},"Scale: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._scaleSelect)),
+			div({ class: "selectRow" }, span({}, div({},"Key: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._keySelect)),
+			div({ class: "selectRow" }, span({}, div({},"Tempo: ")), this._tempoSlider.input),
+			div({ class: "selectRow" }, span({}, div({},"Reverb: ")), this._reverbSlider.input),
+			div({ class: "selectRow" }, span({}, div({},"Rhythm: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._partSelect)),
 		);
 		private readonly _advancedInstrumentSettingsGroup: HTMLDivElement = div({}, 
 			this._advancedInstrumentSettingsLabel,
@@ -327,8 +347,8 @@ const {button, div, span, select, option, input, a} = HTML;
 			this._editorBox,
 			this._trackEditorBox,
 			div({class: "settings-area"}, 
-				div({ style: "align-items: center; display: flex; justify-content: center;" }, div({},"NepBox 2.0"), this._archiveHint),
-				div({ style: "margin: 5px 0; gap: 3px; display: flex; flex-direction: column; align-items: center;" }, 
+				div({ class:"title", style: "align-items: center; display: flex; justify-content: center;" }, div({},"NepBox")),
+				div({ class:"controller", style: "margin: 5px 0; gap: 3px; display: flex; flex-direction: column; align-items: center;" }, 
 					div({ style: "display:flex; flex-direction:row;" },
 						SVG.svg( { width: "2em", height: "2em", viewBox: "0 0 26 26" }, 
 							SVG.path({ d: "M 4 17 L 4 9 L 8 9 L 12 5 L 12 21 L 8 17 z", fill: ColorConfig.volumeIcon}),
@@ -370,16 +390,9 @@ const {button, div, span, select, option, input, a} = HTML;
 				),
 			),
 			div({ class: "song-settings-area editor-settings" }, 
-				div({ class: "editor-song-settings" }, 
-					div({style: "margin: 3px 0; text-align: center; color: #999;"}, 
-						div({},"Song Settings")
-					),
-					div({ class: "selectRow" }, span({}, div({},"Scale: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._scaleSelect)),
-					div({ class: "selectRow" }, span({}, div({},"Key: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._keySelect)),
-					div({ class: "selectRow" }, span({}, div({},"Tempo: ")), this._tempoSlider.input),
-					div({ class: "selectRow" }, span({}, div({},"Reverb: ")), this._reverbSlider.input),
-					div({ class: "selectRow" }, span({}, div({},"Rhythm: ")), div({ class: "selectContainer", style: "margin: 3px 0; text-align: center; color: #ccc;" }, this._partSelect)),
-				),
+				this._SettingsLabel,
+				this._settingsTabs,
+				this._songSettingsGroup,
 				div({class: "editor-instrument-settings"}, 
 					this._instrumentSettingsGroup,
 				),
@@ -476,6 +489,9 @@ const {button, div, span, select, option, input, a} = HTML;
 			this._editorBox.addEventListener("mousedown", this._refocusStage);
 			this.mainLayer.addEventListener("keydown", this._whenKeyPressed);
 			
+			this._songSettingsButton.addEventListener("click", this._setSongSettings);
+			this._instSettingsButton.addEventListener("click", this._setInstSettings);
+
 			if (isMobile) (<HTMLOptionElement> this._optionsMenu.children[1]).disabled = true;
 		}
 		
@@ -773,6 +789,20 @@ const {button, div, span, select, option, input, a} = HTML;
 			}
 		}
 
+		private _setSongSettings = (): void => {
+			this._songSettingsGroup.style.display = "flex";
+			this._instrumentSettingsGroup.style.display = "none";
+			this._songSettingsButton.style.borderBottom = "solid 2px var(--link-accent)";
+			this._instSettingsButton.style.borderBottom = "";
+		}
+
+		private _setInstSettings = (): void => {
+			this._instrumentSettingsGroup.style.display = "unset";
+			this._songSettingsGroup.style.display = "none";
+			this._instSettingsButton.style.borderBottom = "solid 2px var(--link-accent)";
+			this._songSettingsButton.style.borderBottom = "";
+		}
+
 		private _muteInstrument = (): void => {
 			const channel: Channel = this._doc.song.channels[this._doc.channel];
 			const instrumentIndex: number = this._doc.getCurrentInstrument();
@@ -824,7 +854,9 @@ const {button, div, span, select, option, input, a} = HTML;
 			switch (event.keyCode) {
 				case 8:
 					if (event.ctrlKey) {
-						this._doc.record(new ChangeRemoveChannel(this._doc, this._doc.channel, this._doc.channel));
+						if (this._doc.channel > 0) {
+							this._doc.record(new ChangeRemoveChannel(this._doc, this._doc.channel, this._doc.channel));
+						}
 					} else {
 						this._doc.record(new ChangeDeleteBars(this._doc, this._doc.bar, 1));
 					}
@@ -832,9 +864,8 @@ const {button, div, span, select, option, input, a} = HTML;
 					event.preventDefault();
 					break;
 				case 13: // enter
-					if (event.ctrlKey) {
-						this._doc.record(new ChangeAddChannel(this._doc, this._doc.channel+1, this._doc.song.getChannelIsDrum(this._doc.channel)));
-						this._doc.channel = this._doc.channel + 1;
+					if (event.ctrlKey || event.metaKey) {		
+							this._doc.selection.insertChannel();
 					} else {
 						this._doc.record(new ChangeInsertBars(this._doc, this._doc.bar+1, 1)); }
 					event.preventDefault();
@@ -900,9 +931,24 @@ const {button, div, span, select, option, input, a} = HTML;
 					break;
 
 				case 77: // m
+				if (event.shiftKey) {
+					this._doc.selection.muteAllInstruments();
+					} else { 
 					this._muteInstrument();
 					event.preventDefault();
+				}
 					break;
+
+				case 83: // s
+				if (event.ctrlKey || event.metaKey) {
+					this._openPrompt("export");
+					event.preventDefault();
+				}	else {
+					this._doc.selection.soloChannels(event.shiftKey);
+					event.preventDefault();
+				}
+					break;
+
 				case 32: // space
 					//stage.focus = stage;
 					this._togglePlay();

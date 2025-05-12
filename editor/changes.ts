@@ -326,14 +326,13 @@ import { InstrumentType, Config } from "../synth/SynthConfig";
 	export class ChangeRemoveChannel extends ChangeGroup {
 		constructor(doc: SongDocument, minIndex: number, maxIndex: number) {
 			super();
-			
 			while (maxIndex >= minIndex) {
 				const isNoise: boolean = doc.song.getChannelIsDrum(maxIndex);
 				doc.song.channels.splice(maxIndex, 1);
 				if (isNoise) {
 					doc.song.drumChannelCount--;
 				} else {
-					doc.song.pitchChannelCount--;
+						doc.song.pitchChannelCount--;
 				}
 				maxIndex--;
 			}
@@ -430,6 +429,30 @@ import { InstrumentType, Config } from "../synth/SynthConfig";
 			const oldValue: number = doc.song.channels[doc.channel].instruments[doc.getCurrentInstrument()].imute;
 			if (oldValue != newValue) {
 				doc.song.channels[doc.channel].instruments[doc.getCurrentInstrument()].imute = newValue;
+				doc.notifier.changed();
+				this._didSomething();
+			}
+		}
+	}
+
+	export class ChangeAllImute extends Change {
+		constructor(doc: SongDocument, newValue: number, index: number) {
+			super();
+			const oldValue: number = doc.song.channels[doc.channel].instruments[index].imute;
+			if (oldValue != newValue) {
+				doc.song.channels[doc.channel].instruments[index].imute = newValue;
+				doc.notifier.changed();
+				this._didSomething();
+			}
+		}
+	}
+
+	export class ChangeSoloChannels extends Change {
+		constructor(doc: SongDocument, newValue: number, curChannel: number, curInstrument: number) {
+			super();
+			const oldValue: number = doc.song.channels[curChannel].instruments[curInstrument].imute;
+			if (oldValue != newValue) {
+				doc.song.channels[curChannel].instruments[curInstrument].imute = newValue;
 				doc.notifier.changed();
 				this._didSomething();
 			}

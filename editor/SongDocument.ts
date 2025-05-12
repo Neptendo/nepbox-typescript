@@ -26,6 +26,7 @@ import { Change } from "./Change";
 import { ChangeSong } from "./changes";
 import { ColorConfig } from "./ColorConfig"; 
 import { Layout } from "./Layout";
+import {Selection} from "./Selection.js";
 
 	interface HistoryState {
 		canUndo: boolean;
@@ -41,6 +42,7 @@ import { Layout } from "./Layout";
 		public song: Song;
 		public synth: Synth;
 		public notifier: ChangeNotifier = new ChangeNotifier();
+		public readonly selection: Selection = new Selection(this);
 		public channel: number = 0;
 		public bar: number = 0;
 		public autoPlay: boolean;

@@ -280,6 +280,16 @@ background: ${ColorConfig.pageMargin};
 	overflow-x: hidden;
 }
 
+.beepboxEditor .trackAndMuteContainer {
+	display: flex;
+	align-items: flex-start;
+	width: 100%;
+	min-height: 0;
+	flex: 1;
+	overflow-x: hidden;
+	position: relative;
+}
+
 .beepboxEditor .selectRow {
 	margin: 0;
 	height: 2.5em;
